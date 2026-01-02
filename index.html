@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>مُعْجَمُ الكَرْكَرِيَّةِ</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Anime.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script>
+      const favicon =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      favicon.rel = "icon";
+      favicon.href =
+        "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌈</text></svg>";
+      document.head.appendChild(favicon);
+    </script>
+  </head>
+  <body>
+    <!-- Introduction Page -->
+    <div class="intro-page" id="introPage">
+      <div class="intro-content">
+        <div class="intro-line intro-line-1">
+          بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ
+        </div>
+        <div class="intro-line intro-line-2">
+          اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَآلِ مُحَمَّدٍ
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Title Section (Right) -->
+      <div class="text-block" id="titleText">
+        <div class="line1">مُعْجَمُ</div>
+        <div class="line2">الكَرْكَرِيَّةِ</div>
+      </div>
+
+      <!-- Octagram Star (Center) -->
+      <div class="octagram-container" id="octagramStar"></div>
+
+      <!-- Circular Photo (Top Left) -->
+      <div id="photoCursor" class="photo-custom-cursor">
+        وَلِيُّ اللّهِ مُحَمَّد فَوْزِي الكَرْكَرِي
+      </div>
+      <div class="circle-photo" id="circlePhoto">
+        <img src="images/Sidi.jpg" alt="سيدي الشيخ محمد فوزي الكركري" />
+      </div>
+
+      <!-- Photo Modal -->
+      <div class="photo-modal" id="photoModal">
+        <div class="photo-modal-backdrop"></div>
+        <div class="photo-modal-content">
+          <button class="photo-modal-close" id="photoModalClose">×</button>
+          <img src="images/Sidi.jpg" alt="سيدي الشيخ محمد فوزي الكركري" />
+        </div>
+      </div>
+
+      <!-- Floating Dictionary Cards -->
+      <div class="floating-dictionary">
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="إبحث في المعجم..." />
+        </div>
+
+        <div class="cards-grid" id="wordsContainer">
+          <!-- Words will be dynamically loaded here -->
+        </div>
+      </div>
+
+      <!-- Word Detail Modal -->
+      <div class="word-modal" id="wordModal">
+        <div class="modal-content">
+          <button class="modal-close" id="modalClose">×</button>
+          <div class="modal-word" id="modalWord"></div>
+          <div class="modal-definition" id="modalDefinition"></div>
+          <div class="modal-example" id="modalExample"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="ambientAudio" autoplay muted loop preload="auto">
+      <source src="music/Colors.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Sound Toggle -->
+    <button id="soundToggle" aria-label="Toggle sound">🔈</button>
+
+    <!-- Bottom Scrolling Bar -->
+    <div class="bottom-bar">
+      <div class="scrolling-wrapper">
+        <div class="scrolling-content">
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+        </div>
+        <div class="scrolling-content" aria-hidden="true">
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+          <span class="scrolling-text">اللهُ حَيّ 🔥</span>
+          <span class="scrolling-text">هُوَّ حَيّ 🔥</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/dictionary.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/rainbow-effect.js"></script>
+    <script src="js/intro.js"></script>
+    <script src="js/octagram-animation.js"></script>
+    <script src="js/photo-cursor.js"></script>
+  </body>
+</html>
