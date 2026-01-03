@@ -70,14 +70,14 @@ toggle.addEventListener("click", async () => {
     try {
       await audio.play();
       fadeIn(audio, TARGET_VOLUME, FADE_DURATION);
-      toggle.textContent = "🔊";
+      toggle.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
       isPlaying = true;
     } catch (err) {
       console.error("Audio play failed:", err);
     }
   } else {
     fadeOut(audio, 1000); // 1 second fade out
-    toggle.textContent = "🔈";
+    toggle.innerHTML = '<i class="bi bi-volume-mute-fill"></i>';
     isPlaying = false;
   }
 });

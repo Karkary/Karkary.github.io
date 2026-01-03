@@ -809,12 +809,18 @@ body::before {
   border-radius: 50%;
   width: 48px;
   height: 48px;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 100;
-  backdrop-filter: blur(8px); /* REDUCED from 15px */
+  backdrop-filter: blur(8px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#soundToggle i {
   display: flex;
   align-items: center;
   justify-content: center;
