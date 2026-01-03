@@ -108,13 +108,13 @@
     rgba(255, 180, 80, 0) 100%
   );
   pointer-events: none;
-  animation: floatSand linear infinite;
-  filter: blur(0.3px);
-  z-index: 5;
-  will-change: transform;
+  animation: floatSandOrganic linear infinite;
+  filter: blur(0.5px);
+  z-index: 10000;
+  will-change: transform, filter;
   transform: translateZ(0);
-  box-shadow: 0 0 8px rgba(255, 240, 180, 0.9),
-    0 0 15px rgba(255, 220, 140, 0.6), 0 0 25px rgba(255, 200, 100, 0.4);
+  box-shadow: 0 0 12px rgba(255, 240, 180, 0.9),
+    0 0 20px rgba(255, 220, 140, 0.7), 0 0 35px rgba(255, 200, 100, 0.5);
 }
 
 /* Add sparkle effect to some particles */
@@ -124,43 +124,73 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 150%;
-  height: 150%;
+  width: 180%;
+  height: 180%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 240, 180, 0.4) 40%,
     rgba(255, 255, 255, 0) 70%
   );
   border-radius: 50%;
-  animation: sparkle 2s ease-in-out infinite;
+  animation: sparkleOrganic 3s ease-in-out infinite;
 }
 
-@keyframes floatSand {
+@keyframes floatSandOrganic {
   0% {
-    transform: translate(0, 0) scale(0);
+    transform: translate(0, 0) scale(0) rotate(0deg);
     opacity: 0;
+    filter: blur(0.5px) brightness(1);
   }
   5% {
     opacity: 1;
+  }
+  20% {
+    filter: blur(0.8px) brightness(1.2);
+  }
+  40% {
+    filter: blur(0.4px) brightness(0.9);
+  }
+  60% {
+    filter: blur(0.7px) brightness(1.1);
+  }
+  80% {
+    filter: blur(0.5px) brightness(1);
   }
   90% {
     opacity: 1;
   }
   100% {
-    transform: translate(var(--tx), var(--ty)) scale(1);
+    transform: translate(var(--tx), var(--ty)) scale(1.4) rotate(360deg);
     opacity: 0;
+    filter: blur(0.3px) brightness(0.8);
   }
 }
 
-@keyframes sparkle {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: translate(-50%, -50%) scale(0.8);
+@keyframes sparkleOrganic {
+  0% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
   }
-  50% {
+  20% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.3) rotate(45deg);
+  }
+  40% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(0.9) rotate(90deg);
+  }
+  60% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
+  }
+  80% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.1) rotate(270deg);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(0.7) rotate(360deg);
   }
 }
 
@@ -270,11 +300,66 @@ body::before {
   z-index: 50;
   animation: floatIn 1s ease-out;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.circle-photo:hover {
-  transform: scale(1.05);
+.circle-photo::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 125%;
+  border-radius: 50% 50% 45% 45% / 50% 50% 55% 55%;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(200, 255, 100, 0.7) 0%,
+    rgba(124, 255, 0, 0.6) 15%,
+    rgba(100, 220, 50, 0.5) 30%,
+    rgba(80, 180, 40, 0.4) 45%,
+    rgba(60, 140, 30, 0.25) 60%,
+    rgba(40, 100, 20, 0.1) 75%,
+    transparent 90%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.6s ease;
+  z-index: -1;
+  animation: flameFlicker 3.5s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.circle-photo::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 115%;
+  height: 130%;
+  border-radius: 48% 52% 43% 47% / 45% 48% 58% 62%;
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    rgba(180, 255, 80, 0.5) 0%,
+    rgba(124, 255, 0, 0.45) 20%,
+    rgba(100, 200, 50, 0.35) 35%,
+    rgba(70, 150, 35, 0.25) 50%,
+    rgba(50, 120, 25, 0.15) 65%,
+    transparent 80%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: blur(18px);
+  transition: opacity 0.6s ease;
+  z-index: -1;
+  animation: flameFlicker 4.2s ease-in-out infinite reverse;
+  animation-play-state: paused;
+}
+
+.circle-photo:hover::before,
+.circle-photo:hover::after {
+  opacity: 1;
+  animation-play-state: running;
 }
 
 .circle-photo img {
@@ -282,9 +367,57 @@ body::before {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid rgb(124 255 0);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  filter: contrast(1) brightness(1);
+}
+
+.circle-photo:hover img {
+  filter: contrast(1.08) brightness(1.12);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 35px rgba(124, 255, 0, 0.35);
+}
+
+@keyframes flameFlicker {
+  0% {
+    transform: translate(-50%, -50%) scale(1, 1) skewX(0deg);
+    border-radius: 50% 50% 45% 45% / 50% 50% 55% 55%;
+    filter: blur(12px) brightness(1);
+  }
+  15% {
+    transform: translate(-48%, -52%) scale(1.03, 1.08) skewX(-2deg);
+    border-radius: 48% 52% 43% 47% / 48% 52% 57% 53%;
+    filter: blur(14px) brightness(1.1);
+  }
+  30% {
+    transform: translate(-52%, -51%) scale(0.98, 1.05) skewX(3deg);
+    border-radius: 52% 48% 47% 43% / 52% 48% 58% 52%;
+    filter: blur(11px) brightness(0.95);
+  }
+  45% {
+    transform: translate(-49%, -53%) scale(1.02, 1.1) skewX(-1deg);
+    border-radius: 49% 51% 44% 46% / 49% 51% 59% 51%;
+    filter: blur(15px) brightness(1.05);
+  }
+  60% {
+    transform: translate(-51%, -50%) scale(1.01, 1.03) skewX(2deg);
+    border-radius: 51% 49% 46% 44% / 51% 49% 56% 54%;
+    filter: blur(13px) brightness(1);
+  }
+  75% {
+    transform: translate(-50%, -52%) scale(0.99, 1.07) skewX(-3deg);
+    border-radius: 50% 50% 45% 45% / 50% 50% 60% 50%;
+    filter: blur(12px) brightness(1.08);
+  }
+  90% {
+    transform: translate(-49%, -51%) scale(1.01, 1.04) skewX(1deg);
+    border-radius: 49% 51% 46% 44% / 49% 51% 57% 53%;
+    filter: blur(14px) brightness(0.98);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1) skewX(0deg);
+    border-radius: 50% 50% 45% 45% / 50% 50% 55% 55%;
+    filter: blur(12px) brightness(1);
+  }
 }
 
 /* Photo Modal - OPTIMIZED */
