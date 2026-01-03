@@ -1,22 +1,10 @@
-// floating-sand.js - Optimized dreamy floating sand particle effect
+// floating-sand.js - Dreamy floating sand particle effect
 
 (function () {
   "use strict";
 
-  // Performance-aware settings
-  const MAX_PARTICLES = 30; // Reduced from 50 for better performance
-  let activeParticles = 0;
-  let animationFrameId = null;
-  let lastParticleTime = 0;
-  const PARTICLE_INTERVAL = 1200; // Increased from 800ms
-
   // Create sand particle
   function createSandParticle() {
-    // Don't create if we're at max capacity
-    if (activeParticles >= MAX_PARTICLES) {
-      return;
-    }
-
     const particle = document.createElement("div");
     particle.className = "sand-particle";
 
@@ -46,70 +34,25 @@
     particle.style.animationDelay = delay + "s";
 
     document.body.appendChild(particle);
-    activeParticles++;
 
     // Remove particle after animation completes
     setTimeout(() => {
-      if (particle.parentNode) {
-        particle.remove();
-        activeParticles--;
-      }
+      particle.remove();
     }, (duration + delay) * 1000);
-  }
-
-  // Throttled particle creation
-  function scheduleParticleCreation() {
-    const now = Date.now();
-    if (now - lastParticleTime >= PARTICLE_INTERVAL) {
-      createSandParticle();
-      lastParticleTime = now;
-    }
-    animationFrameId = requestAnimationFrame(scheduleParticleCreation);
-  }
-
-  // Check if user prefers reduced motion
-  function prefersReducedMotion() {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
   // Initialize sand particles
   function initSandParticles() {
-    // Respect user's motion preferences
-    if (prefersReducedMotion()) {
-      console.log("Sand particles disabled: user prefers reduced motion");
-      return;
+    // Create initial batch of particles
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => createSandParticle(), i * 200);
     }
 
-    // Create initial batch of particles with staggered timing
-    const initialBatch = 20; // Reduced from 50
-    for (let i = 0; i < initialBatch; i++) {
-      setTimeout(() => createSandParticle(), i * 300);
-    }
-
-    // Start continuous particle creation using RAF
-    scheduleParticleCreation();
+    // Continuously create new particles
+    setInterval(() => {
+      createSandParticle();
+    }, 800);
   }
-
-  // Cleanup on page unload
-  function cleanup() {
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-    }
-  }
-
-  // Pause particles when tab is hidden (performance optimization)
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
-    } else {
-      if (!animationFrameId) {
-        scheduleParticleCreation();
-      }
-    }
-  });
 
   // Start when DOM is ready
   if (document.readyState === "loading") {
@@ -117,7 +60,4 @@
   } else {
     initSandParticles();
   }
-
-  // Cleanup on unload
-  window.addEventListener("beforeunload", cleanup);
 })();
